@@ -28,7 +28,7 @@ public class Login extends JFrame {
     private DatabaseOperations operation;
 
     public Login(JFrame parent) throws IOException, SQLException {
-        operation = new DatabaseOperations();
+        operation = DatabaseOperations.getInstance();
         setTitle("Login");
         setContentPane(LoginPanel);
         setMinimumSize(new Dimension(600, 320));

@@ -48,7 +48,7 @@ public class Dashboard extends JFrame {
     }
 
     public Dashboard() throws SQLException {
-        operation = new DatabaseOperations();
+
         $$$setupUI$$$();
         setTitle("Login");
         setContentPane(mainp);
