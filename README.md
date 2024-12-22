@@ -18,9 +18,9 @@
 the basic system design
 
 ### ERD
-![img](https://imgur.com/a/yeQt29b)
+[img](https://imgur.com/a/yeQt29b)
 ### Tables
-![img2](https://imgur.com/a/wklwh8i)
+[img2](https://imgur.com/a/wklwh8i)
 
 ## Tools Used
 - Gradle for building system
