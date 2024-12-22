@@ -55,3 +55,10 @@ CREATE TABLE Enrollment (
                             FOREIGN KEY (CourseID)REFERENCES Course(CourseID),
                             FOREIGN KEY (StudentID) REFERENCES Student(StudentID)
 );
+
+CREATE LOGIN user1 WITH PASSWORD = 'pass1';
+use UniversityDB;
+
+CREATE USER user1 FOR LOGIN user1;
+
+ALTER ROLE db_owner ADD MEMBER user1;
