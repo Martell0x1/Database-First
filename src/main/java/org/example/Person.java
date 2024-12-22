@@ -1,5 +1,8 @@
 package org.example;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Date;
 
 public class Person {
@@ -13,6 +16,7 @@ public class Person {
     private String gender;
     private String role;
     private String Phone;
+    private int age; // will be set using setters and getters;
 
     public Person(String firstName, String lastName, Date birthDate, String address,
                 String email, String password, String gender,String Phone, String role) {
@@ -22,7 +26,7 @@ public class Person {
         this.address = address;
         this.email = email;
         this.password = password;
-        this.gender = (gender.equals("Male") ? "M":"F");
+        this.gender = gender;
         this.Phone = Phone;
         this.role = role;
     }
@@ -45,6 +49,14 @@ public class Person {
     public String getPassword() { return password; }
     public String getGender() { return gender; }
     public String getRole() { return role; }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
 
     public String getPhone() {
         return Phone;
@@ -87,5 +99,11 @@ public class Person {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    protected int CalculateAge(){
+        LocalDate birthLocalDate = birthDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate currentDate = LocalDate.now();
+        return Period.between(birthLocalDate, currentDate).getYears();
     }
 }

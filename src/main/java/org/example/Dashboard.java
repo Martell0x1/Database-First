@@ -5,83 +5,61 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class Dashboard extends JFrame {
-    private JButton editProfileButton;
     private JButton showStudentsButton;
     private JButton showProfessorsButton;
-    private JButton deleteStudentButton;
-    private JButton deleteAccountButton;
-    private JPanel action;
     private JPanel mainp;
+    private JPanel action;
+    private JButton Register;
+    private JButton ShowInfo;
     private JPanel data;
+    private JButton registerB;
     private DatabaseOperations operation;
+    private CardLayout cardLayout;
 
-    private JPanel EditProfilePanel(String name) {
-        JPanel panel = new JPanel(new GridLayout(5, 2, 10, 10));
-        panel.add(new JLabel("Name:"));
-        panel.add(new JTextField());
-        panel.add(new JLabel("Email:"));
-        panel.add(new JTextField());
-        panel.add(new JLabel("Phone:"));
-        panel.add(new JTextField());
-        panel.add(new JLabel(""));
-        panel.add(new JButton("Save"));
-        return panel;
-    }
 
-    private JPanel ShowStudents() {
-        JPanel x = new JPanel();
-        return x;
-    }
-
-    private JPanel ShowProfessor() {
-        JPanel x = new JPanel();
-        return x;
-    }
-
-    public Dashboard() throws SQLException {
-
-        $$$setupUI$$$();
-        setTitle("Login");
-        setContentPane(mainp);
-        setMinimumSize(new Dimension(600, 600));
-
+    public Dashboard(Person person) throws SQLException {
+        $$$setupUI$$$(); // GUI Designer setup
+        setTitle("Dashboard");
+        setMinimumSize(new Dimension(1200, 800));
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        CardLayout cardlayout = (CardLayout) data.getLayout();
-        data.add(EditProfilePanel("s"), "EditProfile");
-        data.add(ShowStudents(), "ShowStudents");
-        data.add(ShowProfessor(), "ShowProfessor");
+        mainp.setLayout(new BorderLayout());
+
+        // Add action panel to the left
+        mainp.add(action, BorderLayout.WEST);
+        // Initialize CardLayout
+        cardLayout = (CardLayout) data.getLayout();
+
+        // Create different views for the data panel
+        JPanel defaultPanel = new DefualtPanel(person);
+        JPanel registerSubjectPanel = new RegisterSubject(person);
 
 
-        editProfileButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cardlayout.show(data, "EditProfile");
-            }
-        });
-        showStudentsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cardlayout.show(data, "ShowStudents");
-            }
-        });
-        showProfessorsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cardlayout.show(data, "ShowProfessor");
-            }
-        });
+        // Add panels to the data panel with unique identifiers
+        data.add(defaultPanel, "Default");
+        data.add(registerSubjectPanel, "RegisterSubject");
+
+        mainp.add(data, BorderLayout.CENTER);
+
+        // Add action listeners to buttons in the action panel
+        ShowInfo.addActionListener(e -> cardLayout.show(data, "Default"));
+        registerB.addActionListener(e -> cardLayout.show(data, "RegisterSubject"));
+
+        // Show the default panel at startup
+        cardLayout.show(data, "Default");
+        setContentPane(mainp);
+
+        if (!Objects.equals(person.getRole(), "Student"))
+            registerB.setVisible(false);
     }
 
     public void Run() {
@@ -98,37 +76,33 @@ public class Dashboard extends JFrame {
      */
     private void $$$setupUI$$$() {
         mainp = new JPanel();
-        mainp.setLayout(new GridLayoutManager(4, 2, new Insets(0, 0, 0, 0), -1, -1));
-        action = new JPanel();
-        action.setLayout(new GridLayoutManager(6, 2, new Insets(0, 10, 10, 10), -1, -1));
-        action.setBackground(new Color(-3378161));
-        mainp.add(action, new GridConstraints(0, 0, 4, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        mainp.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
         final Spacer spacer1 = new Spacer();
-        action.add(spacer1, new GridConstraints(0, 1, 6, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        mainp.add(spacer1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        final JPanel panel1 = new JPanel();
+        panel1.setLayout(new GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
+        mainp.add(panel1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        action = new JPanel();
+        action.setLayout(new GridLayoutManager(7, 2, new Insets(0, 10, 10, 10), -1, -1));
+        action.setBackground(new Color(-3378161));
+        panel1.add(action, new GridConstraints(0, 0, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        final Spacer spacer2 = new Spacer();
+        action.add(spacer2, new GridConstraints(0, 1, 7, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final JLabel label1 = new JLabel();
         label1.setIcon(new ImageIcon(getClass().getResource("/images/user.png")));
         label1.setText("");
         action.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        editProfileButton = new JButton();
-        editProfileButton.setText("Edit Profile");
-        action.add(editProfileButton, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        showStudentsButton = new JButton();
-        showStudentsButton.setText("Show Students");
-        action.add(showStudentsButton, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        showProfessorsButton = new JButton();
-        showProfessorsButton.setText("Show Professors");
-        action.add(showProfessorsButton, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        deleteStudentButton = new JButton();
-        deleteStudentButton.setText("Delete Student");
-        action.add(deleteStudentButton, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        deleteAccountButton = new JButton();
-        deleteAccountButton.setText("Delete Account");
-        action.add(deleteAccountButton, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final Spacer spacer2 = new Spacer();
-        mainp.add(spacer2, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        ShowInfo = new JButton();
+        ShowInfo.setText("My Info");
+        action.add(ShowInfo, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        registerB = new JButton();
+        registerB.setText("Register Subject");
+        action.add(registerB, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final Spacer spacer3 = new Spacer();
+        panel1.add(spacer3, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         data = new JPanel();
         data.setLayout(new CardLayout(0, 0));
-        mainp.add(data, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        panel1.add(data, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
     }
 
     /**

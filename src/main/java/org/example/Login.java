@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Locale;
 
 public class Login extends JFrame {
@@ -49,10 +50,13 @@ public class Login extends JFrame {
                     if (ok) {
                         JOptionPane.showMessageDialog(null, "Authentication Successed");
                         dispose();
-                        new Dashboard().Run();
+                        Person p = operation.GetPerson(EmStr, PassStr);
+                        new Dashboard(operation.GetPerson(EmStr, PassStr)).Run();
                     } else
                         JOptionPane.showMessageDialog(null, "Check you email or password", "Wrong creds", JOptionPane.ERROR_MESSAGE);
                 } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                } catch (ParseException ex) {
                     throw new RuntimeException(ex);
                 }
             }
@@ -66,6 +70,7 @@ public class Login extends JFrame {
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                dispose();
                 try {
                     Register s = new Register(null);
                 } catch (IOException ex) {

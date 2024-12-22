@@ -7,6 +7,7 @@ version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    maven { url "https://repo1.maven.org/maven2" }
     flatDir dirs: "${rootDir}/lib"
 }
 
@@ -19,6 +20,7 @@ tasks.named("jar",Jar){
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     implementation 'com.microsoft.sqlserver:mssql-jdbc:11.2.0.jre8'
+    implementation "org.mindrot:jbcrypt:0.4"
     implementation group: 'com.intellij', name: 'forms_rt', version: '7.0.3'
 
     testImplementation 'org.junit.jupiter:junit-jupiter'

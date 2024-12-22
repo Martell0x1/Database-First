@@ -13,6 +13,7 @@ import java.util.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Register extends JFrame {
     private JTextField FirstName;
@@ -140,9 +141,23 @@ public class Register extends JFrame {
                     throw new RuntimeException(ex);
                 }
             }
-            if (auth)
+            if (auth) {
                 JOptionPane.showMessageDialog(null, "Registration successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            else
+                try {
+                    if (Objects.equals(Role, "Student")) {
+                        student.setAge(student.CalculateAge());
+                        ArrayList<String> x = DatabaseOperations.getInstance().GetStudentData(student);
+                        student.setGPA(Integer.parseInt(x.get(1)));
+                        new Dashboard(student).Run();
+                    } else {
+
+                        new Dashboard(professor).Run();
+                    }
+                    dispose();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            } else
                 JOptionPane.showMessageDialog(null, "Registration Failed Due to Database Issue!", "Failed", JOptionPane.ERROR_MESSAGE);
 
         }

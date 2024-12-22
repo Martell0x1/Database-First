@@ -8,6 +8,9 @@ public class Professor extends Person{
     public Professor(){
         super();
     }
+    public Professor(Person p){
+        super(p.getFirstName(),p.getLastName(),p.getBirthDate(),p.getAddress(),p.getEmail(),p.getPassword(),p.getGender(),p.getPhone(),"Professor");
+    }
     public Professor(String firstName, String lastName, Date birthDate, String address, String email, String password, String gender, String Phone,String role) {
         super(firstName, lastName, birthDate, address, email, password, gender, Phone,role);
     }
