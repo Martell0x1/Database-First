@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- *
  * @author martell
  */
 public class DefualtPanel extends javax.swing.JPanel {
@@ -20,17 +19,18 @@ public class DefualtPanel extends javax.swing.JPanel {
     private Student student;
     private Professor professor;
     private DatabaseOperations instance;
-    Map<Integer,String> mp = new HashMap<Integer, String>();
-    Map<String,Integer> mpr = new HashMap<String,Integer>();
+    Map<Integer, String> mp = new HashMap<Integer, String>();
+    Map<String, Integer> mpr = new HashMap<String, Integer>();
+
     public DefualtPanel(Person person) {
         initComponents();
         delete.setVisible(false);
-        mp.put(1,"programming");
-        mpr.put("programming",1);
-        mp.put(2,"os");
-        mpr.put("os",2);
-        mp.put(3,"dsa");
-        mpr.put("dsa",3);
+        mp.put(1, "programming");
+        mpr.put("programming", 1);
+        mp.put(2, "os");
+        mpr.put("os", 2);
+        mp.put(3, "dsa");
+        mpr.put("dsa", 3);
         this.person = person;
         try {
             this.instance = DatabaseOperations.getInstance();
@@ -43,6 +43,7 @@ public class DefualtPanel extends javax.swing.JPanel {
             throw new RuntimeException(e);
         }
     }
+
     private void LoadPersonInfo() throws SQLException {
 
         ArrayList<Integer> list = instance.GetProfData(person);
@@ -56,8 +57,7 @@ public class DefualtPanel extends javax.swing.JPanel {
         this.Phone.setText(this.person.getPhone());
 
 
-
-        if(this.person.getRole().equals("Student")){
+        if (this.person.getRole().equals("Student")) {
             this.Salary.setVisible(false);
             this.SalaryLabel.setVisible(false);
             this.SubjectLabel.setVisible(false);
@@ -67,8 +67,7 @@ public class DefualtPanel extends javax.swing.JPanel {
             ArrayList<String> vec = instance.GetStudentData(person);
             this.UniIdText.setText(vec.get(0));
             this.CGPA.setText(vec.get(1));
-        }
-        else{
+        } else {
             this.uniLabel.setVisible(false);
             this.UniIdText.setVisible(false);
             this.Salary.setText(String.valueOf(list.get(0)));
@@ -77,7 +76,8 @@ public class DefualtPanel extends javax.swing.JPanel {
 
         }
     }
-    private Person SetPerson(){
+
+    private Person SetPerson() {
         Person x = new Person();
         x.setFirstName(Name.getText());
         x.setLastName(LastName.getText());
@@ -92,17 +92,20 @@ public class DefualtPanel extends javax.swing.JPanel {
         x.setPhone(Phone.getText());
         return x;
     }
-    private void SetStudent(Person NewPerson){
+
+    private void SetStudent(Person NewPerson) {
         student = new Student(NewPerson);
         student.setUniversityId(Integer.parseInt(this.UniIdText.getText()));
     }
-    private void SetProf(Person NewPerson){
+
+    private void SetProf(Person NewPerson) {
         professor = new Professor(NewPerson);
         professor.setSalary(Integer.parseInt(this.Salary.getText()));
         professor.AssignCourse(
-                new Courses(mpr.get(String.valueOf(this.SubjectSelect.getSelectedItem())),String.valueOf(this.SubjectSelect.getSelectedItem()),3)
+                new Courses(mpr.get(String.valueOf(this.SubjectSelect.getSelectedItem())), String.valueOf(this.SubjectSelect.getSelectedItem()), 3)
         );
     }
+
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
@@ -165,14 +168,14 @@ public class DefualtPanel extends javax.swing.JPanel {
         });
 
 
-        Gender.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female" }));
+        Gender.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Male", "Female"}));
 
 
         UniIdText.setEditable(false);
 
         Salary.setEditable(false);
 
-        SubjectSelect.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "programming", "os", "dsa" }));
+        SubjectSelect.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"programming", "os", "dsa"}));
 
 
         jLabel2.setText("Phone");
@@ -325,27 +328,27 @@ public class DefualtPanel extends javax.swing.JPanel {
     private void UpdateActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {
         System.out.println(Salary.getText());
         Person newPerson = SetPerson();
-        boolean flag1 = instance.UpdatePhone(newPerson.getPhone(),newPerson.getId());
+        boolean flag1 = instance.UpdatePhone(newPerson.getPhone(), newPerson.getId());
         boolean flag2;
-        if(Objects.equals(newPerson.getRole(), "Student")){
+        if (Objects.equals(newPerson.getRole(), "Student")) {
             SetStudent(newPerson);
             student = new Student(newPerson);
             student.setUniversityId(Integer.parseInt(this.UniIdText.getText()));
 
             flag2 = instance.UpdateStudent(student);
 
-        }
-        else {
+        } else {
             SetProf(newPerson);
             professor = new Professor(newPerson);
             professor.setSalary(Integer.parseInt(this.Salary.getText()));
             String x = String.valueOf(this.SubjectSelect.getSelectedItem());
-            Courses c = new Courses(mpr.get(x),x,3);
+            Courses c = new Courses(mpr.get(x), x, 3);
             professor.AssignCourse(c);
             flag2 = instance.UpdateProffessor(professor);
         }
-        if(flag1 && flag2) JOptionPane.showMessageDialog(null,"Information Updated Successfully !","Okay :)",JOptionPane.INFORMATION_MESSAGE);
-        else JOptionPane.showMessageDialog(null,"An Error Occured","Failed To Success",JOptionPane.ERROR_MESSAGE);
+        if (flag1 && flag2)
+            JOptionPane.showMessageDialog(null, "Information Updated Successfully !", "Okay :)", JOptionPane.INFORMATION_MESSAGE);
+        else JOptionPane.showMessageDialog(null, "An Error Occured", "Failed To Success", JOptionPane.ERROR_MESSAGE);
 
     }
 

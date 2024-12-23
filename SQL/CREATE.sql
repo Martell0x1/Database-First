@@ -31,7 +31,7 @@ CREATE TABLE
         ProfID INT PRIMARY KEY,
         Salary Money NOT NULL,
         CourseID INT NOT NULL,
-        FOREIGN KEY (ProfID) REFERENCES Person (PersonID)
+        FOREIGN KEY (ProfID) REFERENCES Person (PersonID),
         FOREIGN KEY (CourseID) REFERENCES Course (CourseID)
     );
 
@@ -63,13 +63,3 @@ CREATE TABLE
         FOREIGN KEY (CourseID) REFERENCES Course (CourseID),
         FOREIGN KEY (StudentID) REFERENCES Student (StudentID)
     );
-
-CREATE LOGIN user1
-WITH
-    PASSWORD = 'pass1';
-
-use UniversityDB;
-
-CREATE USER user1 FOR LOGIN user1;
-
-ALTER ROLE db_owner ADD MEMBER user1;

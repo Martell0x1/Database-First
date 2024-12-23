@@ -19,7 +19,7 @@ public class Person {
     private int age; // will be set using setters and getters;
 
     public Person(String firstName, String lastName, Date birthDate, String address,
-                String email, String password, String gender,String Phone, String role) {
+                  String email, String password, String gender, String Phone, String role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
@@ -40,15 +40,37 @@ public class Person {
     }
 
 
+    public String getFirstName() {
+        return firstName;
+    }
 
-    public String getFirstName() { return firstName; }
-    public String getLastName() { return lastName; }
-    public java.util.Date getBirthDate() { return  birthDate; }
-    public String getAddress() { return address; }
-    public String getEmail() { return email; }
-    public String getPassword() { return password; }
-    public String getGender() { return gender; }
-    public String getRole() { return role; }
+    public String getLastName() {
+        return lastName;
+    }
+
+    public java.util.Date getBirthDate() {
+        return birthDate;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public String getRole() {
+        return role;
+    }
 
     public int getAge() {
         return age;
@@ -69,6 +91,7 @@ public class Person {
     public void setId(int id) {
         this.id = id;
     }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -101,7 +124,7 @@ public class Person {
         this.role = role;
     }
 
-    protected int CalculateAge(){
+    protected int CalculateAge() {
         LocalDate birthLocalDate = birthDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate currentDate = LocalDate.now();
         return Period.between(birthLocalDate, currentDate).getYears();

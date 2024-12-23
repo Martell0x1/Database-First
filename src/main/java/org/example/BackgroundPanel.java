@@ -1,10 +1,10 @@
 package org.example;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.io.InputStream;
-import javax.imageio.ImageIO;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class BackgroundPanel extends JPanel {
     private final Image backgroundImage;

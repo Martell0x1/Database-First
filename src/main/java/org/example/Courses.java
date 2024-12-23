@@ -5,7 +5,7 @@ public class Courses {
     private String CourseName;
     private int h;
 
-    public Courses(int courseID, String courseName,int h) {
+    public Courses(int courseID, String courseName, int h) {
         CourseID = courseID;
         CourseName = courseName;
         this.h = h;

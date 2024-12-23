@@ -9,13 +9,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- *
  * @author martell
  */
 public class RegisterSubject extends javax.swing.JPanel {
     private Person person;
     private DatabaseOperations instance;
     private ArrayList<Courses> courslist;
+
     /**
      * Creates new form RegisterSubject
      */
@@ -30,6 +30,7 @@ public class RegisterSubject extends javax.swing.JPanel {
             throw new RuntimeException(e);
         }
     }
+
     private void LoadPersonInfo() throws SQLException {
 
         ArrayList<Integer> list = instance.GetProfData(person);
@@ -42,13 +43,11 @@ public class RegisterSubject extends javax.swing.JPanel {
         this.Email.setText(this.person.getEmail());
         this.Phone.setText(this.person.getPhone());
 
-        if(person.getRole() == "Student"){
+        if (person.getRole() == "Student") {
             ArrayList<String> vec = instance.GetStudentData(person);
             this.UniIdText.setText(vec.get(0));
             this.CGAP.setText(vec.get(1));
         }
-
-
 
 
     }
@@ -99,7 +98,7 @@ public class RegisterSubject extends javax.swing.JPanel {
 
         jLabel6.setText("CGPA");
 
-        Gender.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female" }));
+        Gender.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Male", "Female"}));
         Gender.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 GenderActionPerformed(evt);
@@ -108,13 +107,14 @@ public class RegisterSubject extends javax.swing.JPanel {
 
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                if(programming.isSelected()) courslist.add(new Courses(1,"programming",3));
-                if(os.isSelected()) courslist.add(new Courses(2,"os",3));
-                if(dsa.isSelected()) courslist.add(new Courses(3,"dsa",3));
+                if (programming.isSelected()) courslist.add(new Courses(1, "programming", 3));
+                if (os.isSelected()) courslist.add(new Courses(2, "os", 3));
+                if (dsa.isSelected()) courslist.add(new Courses(3, "dsa", 3));
                 try {
-                    boolean flag = instance.RegisterSubject_(person,courslist);
-                    if(flag) JOptionPane.showMessageDialog(null,"Register Sucessded !","Okay !",JOptionPane.INFORMATION_MESSAGE);
-                    else JOptionPane.showMessageDialog(null,"Register Failed", "Failed",JOptionPane.ERROR_MESSAGE);
+                    boolean flag = instance.RegisterSubject_(person, courslist);
+                    if (flag)
+                        JOptionPane.showMessageDialog(null, "Register Sucessded !", "Okay !", JOptionPane.INFORMATION_MESSAGE);
+                    else JOptionPane.showMessageDialog(null, "Register Failed", "Failed", JOptionPane.ERROR_MESSAGE);
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }

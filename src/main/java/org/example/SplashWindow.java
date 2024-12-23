@@ -1,16 +1,16 @@
 package org.example;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
-import javax.imageio.ImageIO;
 import java.sql.SQLException;
 import java.util.concurrent.CountDownLatch;
 
-public class SplashWindow extends JFrame{
-    final private JProgressBar progressBar =new JProgressBar(0,100);
+public class SplashWindow extends JFrame {
+    final private JProgressBar progressBar = new JProgressBar(0, 100);
     final private JLabel label = new JLabel("Loading....");
     private final JLabel iconLabel = new JLabel();
     private boolean stop = false;
@@ -24,11 +24,11 @@ public class SplashWindow extends JFrame{
 
         InputStream BG = SplashWindow.class.getClassLoader().getResourceAsStream("images/gradient.jpg");
         JPanel panel = new BackgroundPanel(BG);
-        panel.setLayout (new GridBagLayout());
+        panel.setLayout(new GridBagLayout());
 
         InputStream imageStream = SplashWindow.class.getClassLoader().getResourceAsStream("images/splash.png");
         if (imageStream != null) {
-            ImageIcon icon  = new ImageIcon(ImageIO.read(imageStream));
+            ImageIcon icon = new ImageIcon(ImageIO.read(imageStream));
             iconLabel.setIcon(icon);
         } else {
             iconLabel.setText("Image not found");
@@ -62,14 +62,15 @@ public class SplashWindow extends JFrame{
 
         this.add(panel);
 
-        this.addWindowListener(new java.awt.event.WindowAdapter(){
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
-            public void windowClosing(java.awt.event.WindowEvent e){
+            public void windowClosing(java.awt.event.WindowEvent e) {
                 stop = true;
                 dispose();
             }
         });
     }
+
     private void terminateProgram() {
         SwingUtilities.invokeLater(() -> {
             JOptionPane.showMessageDialog(null, "Unable to connect to the database. The program will now exit.",
@@ -81,6 +82,7 @@ public class SplashWindow extends JFrame{
             System.exit(1);
         });
     }
+
     public void UpdareProgressBar() {
         new Thread(() -> {
             CountDownLatch dbLatch = new CountDownLatch(1);
@@ -186,8 +188,8 @@ public class SplashWindow extends JFrame{
     }
 
 
-    public void Run(){
-        SwingUtilities.invokeLater(()->{
+    public void Run() {
+        SwingUtilities.invokeLater(() -> {
             this.setVisible(true);
             this.UpdareProgressBar();
         });

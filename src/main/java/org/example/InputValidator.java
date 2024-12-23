@@ -1,6 +1,6 @@
 package org.example;
 
-import java.util.regex.*;
+import java.util.regex.Pattern;
 
 public class InputValidator {
     private static Pattern EMAIL_PATTERN =
@@ -14,25 +14,31 @@ public class InputValidator {
     private static Pattern PASSWORD_PATTERN =
             Pattern.compile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,50}$");
 
-    public static boolean isNameValid(String name){
+    public static boolean isNameValid(String name) {
         return !name.isEmpty() && NAME_PATTERN.matcher(name).matches();
     }
-    public static boolean isPasswordValid(String pass){
+
+    public static boolean isPasswordValid(String pass) {
         return !pass.isEmpty() && PASSWORD_PATTERN.matcher(pass).matches();
     }
-    public static  boolean isEmailValid(String Email){
+
+    public static boolean isEmailValid(String Email) {
         return !Email.isEmpty() && EMAIL_PATTERN.matcher(Email).matches();
     }
-    public static boolean isAddressValid(String Address){
+
+    public static boolean isAddressValid(String Address) {
         return !Address.isEmpty() && ADDRESS_PATTERN.matcher(Address).matches();
     }
-    public static boolean isPhoneValid(String Phone){
+
+    public static boolean isPhoneValid(String Phone) {
         return Phone.length() == 14 && PHONE_PATTERN.matcher(Phone).matches();
     }
-    public static boolean doesPasswordsMatch(String pass1,String pass2){
+
+    public static boolean doesPasswordsMatch(String pass1, String pass2) {
         return !pass1.isEmpty() && pass1.equals(pass2);
     }
-    public static boolean noSqli(String Input){
+
+    public static boolean noSqli(String Input) {
         String lower = Input.toLowerCase();
         return !(lower.contains("'") || lower.contains("--") || lower.contains(";") || lower.contains("/*"));
     }
