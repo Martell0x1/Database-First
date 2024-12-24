@@ -1,8 +1,8 @@
 USE UniversityDB;
 
-INSERT INTO Course (CourseName, DepartmentID) VALUES ('programming', 1);
-INSERT INTO Course (CourseName, DepartmentID) VALUES ('os', 2);
-INSERT INTO Course (CourseName, DepartmentID) VALUES ('dsa', 3);
+INSERT INTO Course (CourseName, CourseID) VALUES ('programming', 1);
+INSERT INTO Course (CourseName, CourseID) VALUES ('os', 2);
+INSERT INTO Course (CourseName, CourseID) VALUES ('dsa', 3);
 
 INSERT INTO Person (FirstName, LastName, Address, Gender, Birthdate) VALUES
     ('John', 'Doe', '123 Main St, Springfield', 'Male', '1995-05-14'),
